@@ -1,0 +1,19 @@
+---
+description: Disable browser and password-manager autofill on all forms
+alwaysApply: true
+---
+
+# No form autocomplete
+
+Browser and password-manager autofill must stay disabled for every form in this project unless the user explicitly asks to enable it.
+
+## Required defaults
+
+- Use the shared `Form` component (`autoComplete="off"` plus hidden decoy username/password/email fields)
+- Use `TextField` / `SelectField` (or the same attributes): `autoComplete="new-password"`, `data-1p-ignore`, `data-lpignore`, `data-bwignore`, `data-form-type="other"`, unlock `readOnly` only on focus
+- Prefer opaque `name` / `id` values that do not contain `user`, `id`, `login`, `email`, or `password` (e.g. `yora_acct_code`, `yora_signin_code`)
+- Fields Chrome treats as username (User ID / Username) must use `disableUsernameAutofill` (`autoComplete="one-time-code"`) and clear autofill on create/login mount
+- Prefer `type="text"` with `inputMode` over `type="email"` / `type="tel"` unless a native type is explicitly required
+- Field helpers must enforce these attributes and must not allow callers to turn autofill back on
+
+Never enable autofill for login, user creation, user edit, or other forms unless asked.

@@ -1,0 +1,14 @@
+---
+description: Authentication rules and Docker deployment safety
+alwaysApply: true
+---
+
+# Auth and deployment
+
+- The dashboard and every sensitive API route require a real server-side session. A frontend flag is not authorization.
+- Store the access token in a short-lived HttpOnly cookie. Do not store it in localStorage.
+- State-changing `/api` routes must send `X-CSRF-Token` matching the `csrf_token` cookie. `POST /api/auth/login` is exempt.
+- Hash passwords with Argon2id. Do not add a public registration endpoint. Create the first administrator with `python -m app.scripts.create_admin`.
+- Run Compose from the repo root: `docker compose -f docker/docker-compose.yml ...`. Do not bake `.env` files or secrets into images.
+- Docker is for production `backend` and `frontend` only. MySQL runs on the homeserver separately — do not add a MySQL Compose service.
+- Never run `docker compose down -v`, delete volumes, or reset data unless the user explicitly asks.

@@ -1,0 +1,14 @@
+---
+description: Yora Personal stack, ports, and project layout
+alwaysApply: true
+---
+
+# Stack and layout
+
+- Backend code stays in `backend/` (FastAPI, SQLAlchemy, Pydantic). Frontend code stays in `frontend/` (React, Vite, Tailwind CSS v4, React Router).
+- Local FastAPI listens on `127.0.0.1:8006`. Vite uses `host: "127.0.0.1"`, `port: 5177`, and `strictPort: true`. If either port is busy, stop and report it. Do not pick another port.
+- PyMySQL is synchronous. Do database work in `def` routes, not `async def`.
+- Credentials live only in backend `.env` or the deployment env file. Never put secrets in `VITE_` variables. Commit `.env.example` placeholders only.
+- Change the schema with Alembic. Do not use `create_all` as the production migration path.
+- URL-encode database usernames and passwords when building a connection URL.
+- Form autofill rules live in `no-form-autocomplete.mdc`.
